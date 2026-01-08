@@ -17,13 +17,14 @@
   set_fact:
     __local_disks: "{{ __local_disks | default([]) + [ item[0] | combine(disk_part) ] }}"
   vars:
-    disk_part: "{ 'part' : '{{ (item[1].partitions.keys() | list)[0] }}' }"
+    disk_part:
+      part: '{{ (item[1].partitions.keys() | list)[0] }}'
   with_nested:
     - "{{ local_disks }}"
     - "{{ ansible_facts['devices'].values() | list }}"
   when:
     - local_disks is defined
-    - item[0].disk
+    - item[0].disk is defined
     - item[1].partitions.keys() | list | length > 0
     - item[0].disk in (item[1].partitions.keys() | list)[0]
 
