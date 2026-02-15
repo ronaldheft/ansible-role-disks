@@ -23,7 +23,7 @@
     - "{{ ansible_facts['devices'].values() | list }}"
   when:
     - local_disks is defined
-    - item[0].disk
+    - item[0].disk is defined
     - item[1].partitions.keys() | list | length > 0
     - item[0].disk in (item[1].partitions.keys() | list)[0]
 
